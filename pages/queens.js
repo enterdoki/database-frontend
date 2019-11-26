@@ -3,8 +3,8 @@ import { Text,StyleSheet, View } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Polyline, Marker } from 'react-native-maps';
 import axios from 'axios';
 
-export default class Manhattan extends React.Component {
-    _isMounted = false;
+export default class Queens extends React.Component {
+	_isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
@@ -16,9 +16,9 @@ export default class Manhattan extends React.Component {
     async componentDidMount() {
         this._isMounted = true;
         try {
-            let { data } = await axios.get('https://data-visual-api.herokuapp.com/borough/manhattan');
+            let { data } = await axios.get('https://data-visual-api.herokuapp.com/borough/queens');
             let coords = [];
-			data.forEach((e, i) => {
+			data.slice(0,300).forEach((e, i) => {
 				if (e.longitude && e.latitude) {
 					color = e.price <= 100 ? '#ffa500' : (e.price <= 200 && e.price > 100) ? '#ff4500' : '#ff0000';
 					coords.push(
@@ -42,8 +42,8 @@ export default class Manhattan extends React.Component {
             console.log(err);
         }
         try{
-            let { data } = await axios.get('http://data-visual-api.herokuapp.com/service/Manhattan');
-            let issues = [];
+            let { data } = await axios.get('http://data-visual-api.herokuapp.com/service/queens');
+			let issues = [];
             data.forEach((e, i) => {
                 if (e.longitude && e.latitude) {
                     issues.push(
@@ -72,50 +72,50 @@ export default class Manhattan extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
+	componentWillUnmount() {
+		this._isMounted = false;
+	}
 
-    onMapReady = () => this.setState({ marginBottom: 0 })
+	onMapReady = () => this.setState({ marginBottom: 0 })
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <MapView
-                    provider={PROVIDER_GOOGLE}
-                    onMapReady={this.onMapReady}
-                    style={[styles.map, { flex: 1, marginBottom: this.state.marginBottom }]}
+	render() {
+		return (
+			<View style={styles.container}>
+				<MapView
+					provider={PROVIDER_GOOGLE}
+					onMapReady={this.onMapReady}
+					style={[styles.map, { flex: 1, marginBottom: this.state.marginBottom }]}
 					initialRegion={{
 						latitude: 40.726118,
 						longitude: -73.819713,
 						latitudeDelta: 0.16,
 						longitudeDelta: 0.16
 					}}
-                    showsCompass={false}
-                    loadingEnabled={true}>
-                    {this.state.coords}
-                    {this.state.issues}
-                </MapView>
-            </View>
-        );
-    }
+					showsCompass={false}
+					loadingEnabled={true}>
+					{this.state.coords}
+					{this.state.issues}
+				</MapView>
+			</View>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-    container: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        justifyContent: 'flex-end',
-        alignItems: 'center'
-    },
-    map: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0
-    }
+	container: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0,
+		justifyContent: 'flex-end',
+		alignItems: 'center'
+	},
+	map: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0
+	}
 });
