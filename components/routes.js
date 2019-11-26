@@ -10,10 +10,10 @@ const routes = () => (
    <Router>
       <Scene key = "root">
          <Scene key = "Manhattan" component = {Manhattan} title = "Manhattan" />
-         <Scene key = "Queens" component = {Queens} title = "Queens" />
+         <Scene key = "Queens" component = {Queens} title = "Queens" initial={true}/>
          <Scene key = "Brooklyn" component = {Brooklyn} title = "Brooklyn" />
          <Scene key = "Bronx" component = {Bronx} title = "Bronx" />
-         <Scene key = "StatenIsland" component = {StatenIsland} title = "Staten Island" initial={true}/>
+         <Scene key = "StatenIsland" component = {StatenIsland} title = "Staten Island"/>
       </Scene>
    </Router>
 )

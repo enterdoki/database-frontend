@@ -18,7 +18,7 @@ export default class Brooklyn extends React.Component {
         try {
             let { data } = await axios.get('https://data-visual-api.herokuapp.com/borough/Brooklyn');
             let coords = [];
-			data.forEach((e, i) => {
+			data.slice(0,300).forEach((e, i) => {
 				if (e.longitude && e.latitude) {
 					color = e.price <= 100 ? '#ffa500' : (e.price <= 200 && e.price > 100) ? '#ff4500' : '#ff0000';
 					coords.push(

@@ -17,8 +17,8 @@ export default class Queens extends React.Component {
         this._isMounted = true;
         try {
             let { data } = await axios.get('https://data-visual-api.herokuapp.com/borough/queens');
-			let coords = [];
-			data.forEach((e, i) => {
+            let coords = [];
+			data.slice(0,300).forEach((e, i) => {
 				if (e.longitude && e.latitude) {
 					color = e.price <= 100 ? '#ffa500' : (e.price <= 200 && e.price > 100) ? '#ff4500' : '#ff0000';
 					coords.push(
