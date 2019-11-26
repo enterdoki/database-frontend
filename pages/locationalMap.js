@@ -13,7 +13,6 @@ export default class App extends React.Component {
 		}
 	}
 
-
 	async componentDidMount() {
 		this._isMounted = true;
 		try {
@@ -34,7 +33,8 @@ export default class App extends React.Component {
 						this.setState({
 							initialRegion:region
 						})
-					}
+                    }
+                    
 				},
 				error => Alert.alert(error.message),
 				{ timeout: 20000, maximumAge: 1000 }
