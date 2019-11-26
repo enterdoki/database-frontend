@@ -85,12 +85,12 @@ export default class Manhattan extends React.Component {
                     provider={PROVIDER_GOOGLE}
                     onMapReady={this.onMapReady}
                     style={[styles.map, { flex: 1, marginBottom: this.state.marginBottom }]}
-                    initialRegion={{
-                        latitude: 40.7549,
-                        longitude: -73.9840,
-                        latitudeDelta: 0.16,
-                        longitudeDelta: 0.16
-                    }}
+					initialRegion={{
+						latitude: 40.644823,
+						longitude: -73.958926,
+						latitudeDelta: 0.16,
+						longitudeDelta: 0.16
+					}}
                     showsCompass={false}
                     loadingEnabled={true}>
                     {this.state.coords}

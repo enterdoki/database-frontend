@@ -86,10 +86,10 @@ export default class Manhattan extends React.Component {
                     onMapReady={this.onMapReady}
                     style={[styles.map, { flex: 1, marginBottom: this.state.marginBottom }]}
                     initialRegion={{
-                        latitude: 40.7549,
-                        longitude: -73.9840,
-                        latitudeDelta: 0.16,
-                        longitudeDelta: 0.16
+                        latitude: 40.849297,
+                        longitude: -73.879733,
+                        latitudeDelta: 0.12,
+                        longitudeDelta: 0.12
                     }}
                     showsCompass={false}
                     loadingEnabled={true}>
