@@ -11,7 +11,6 @@ class App extends Component {
       activePage: 1
     };
   }
-
   
   goToHome = () =>{
     Actions.Home();
@@ -19,6 +18,10 @@ class App extends Component {
   
   goToLocationalMap = () =>{
     Actions.LocationalMap();
+  }
+
+  goToDashBoard = () =>{
+    Actions.DashBoard();
   }
 
   render() {
@@ -31,10 +34,10 @@ class App extends Component {
               <Icon style={this.state.activePage === 1 ? { color: '#1E90FF', fontSize: 20 } : { fontSize: 20 }} name="ios-subway" />
             </Button>
             <Button onPress={async () => { await this.setState({activePage:2}); this.goToLocationalMap()}}>
-              <Icon style={this.state.activePage === 2 ? { color: '#1E90FF', fontSize: 20 } : { fontSize: 20 }} active name="ios-map" />
+              <Icon style={this.state.activePage === 2 ? { color: '#1E90FF', fontSize: 20 } : { fontSize: 20 }} active name="ios-body" />
             </Button>
-            <Button onPress={()=>this.setState({activePage:3})}>
-              <Icon style={this.state.activePage === 3 ? { color: '#1E90FF', fontSize: 20 } : { fontSize: 20 }} name="logo-twitter" type="Ionicons" />
+            <Button onPress={async () => { await this.setState({activePage:3}); this.goToDashBoard()}}>
+              <Icon style={this.state.activePage === 3 ? { color: '#1E90FF', fontSize: 20 } : { fontSize: 20 }} name="ios-clipboard" type="Ionicons" />
             </Button>
           </FooterTab>
         </Footer>
