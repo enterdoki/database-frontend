@@ -11,6 +11,12 @@ export default class dashboard extends React.Component {
 
     async componentDidMount() {
         this._isMounted = true;
+        try{
+            
+        }
+        catch(err){
+            console.log(err)
+        }
     }
 
     componentWillUnmount() {
