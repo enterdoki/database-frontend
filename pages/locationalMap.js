@@ -106,7 +106,7 @@ export default class App extends React.Component {
 							coordinate={{ latitude: e.latitude, longitude: e.longitude }}
 						>
 							<MapView.Callout >
-								<Text>Severity Level: {e.severity} {"\n"}Location: {e.latitude},{e.longitude}</Text>
+								<Text>Severity Level: {e.severity} {"\n"}Location: {e.latitude},{e.longitude}{e.description === "empty"? "" : "\n"+ "Description: " + e.description}</Text>
 							</MapView.Callout>
 						</Marker>
 					)
