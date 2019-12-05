@@ -1,20 +1,29 @@
 import React from 'react'
-import { Text, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import { Text } from 'react-native-elements'
+import axios from 'axios';
 
 export default class dashboard extends React.Component {
     _isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
+            freq: []
         }
     }
 
     async componentDidMount() {
         this._isMounted = true;
-        try{
-            
+        try {
+            let { data } = await axios.get(`http://data-visual-api.herokuapp.com/service/count`);
+            console.log(data)
+            if (this._isMounted) {
+                this.setState({
+                    freq: data
+                })
+            }
         }
-        catch(err){
+        catch (err) {
             console.log(err)
         }
     }
@@ -23,10 +32,20 @@ export default class dashboard extends React.Component {
         this._isMounted = false;
     }
 
+    display = () => (
+        this.state.freq.map((item , i)=>{
+            console.log(item.count)
+            return(
+                <Text key={i} style={{textAlign: 'center'}}>Neighborhood: {item.neighbourhood} Service Count: {item.count}</Text>
+            )
+        })
+    )
+
     render() {
         return (
-            <View>
-                <Text>Hi</Text>
+            <View style={{flex:1, justifyContent: "space-evenly", alignItems:'center'}}>
+                <Text h3 style={{textAlign: 'center'}}>High Request Areas</Text>
+                {this.state.freq.length > 0 ? this.display(): <View/>}
             </View>
         );
     }
