@@ -3,7 +3,6 @@ import { Text, StyleSheet, View } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Card } from 'react-native-elements';
-import Brooklyn from './brooklyn';
 
 export default class Home extends React.Component {
     _isMounted = false;
