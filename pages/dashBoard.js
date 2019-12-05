@@ -16,7 +16,6 @@ export default class dashboard extends React.Component {
         this._isMounted = true;
         try {
             let { data } = await axios.get(`http://data-visual-api.herokuapp.com/service/count`);
-            console.log(data)
             if (this._isMounted) {
                 this.setState({
                     freq: data
@@ -34,7 +33,6 @@ export default class dashboard extends React.Component {
 
     display = () => (
         this.state.freq.map((item , i)=>{
-            console.log(item.count)
             return(
                 <Text key={i} style={{textAlign: 'center'}}>Neighborhood: {item.neighbourhood} Service Count: {item.count}</Text>
             )
