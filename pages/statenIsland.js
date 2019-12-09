@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text,StyleSheet, View } from 'react-native'
+import { Text,StyleSheet, View,TouchableOpacity } from 'react-native'
 import MapView, { Heatmap, PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import axios from 'axios';
 
@@ -9,7 +9,9 @@ export default class StatenIsland extends React.Component {
         super(props);
         this.state = {
             coords: [],
-            issues: []
+            issues: [],
+            pins: false,
+            heat: false,
         }
     }
 
@@ -74,6 +76,8 @@ export default class StatenIsland extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
+                                <TouchableOpacity style={styles.icon} onPress={()=>this.setState({pins : !this.state.pins})}><Text>Airbnb</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.icon} onPress={()=>this.setState({heat : !this.state.heat})}><Text>311</Text></TouchableOpacity>
 				<MapView 
 					provider={PROVIDER_GOOGLE}
 					onMapReady={this.onMapReady}
@@ -86,22 +90,22 @@ export default class StatenIsland extends React.Component {
 					}}
 					showsCompass={false}
 					loadingEnabled={true}>
-					{this.state.coords}
-                    <Heatmap
+					{this.state.pins && this.state.coords}
+                    {this.state.heat && <Heatmap
                         points={this.state.issues}
                         onZoomRadiusChange={{
                             zoom: [0, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17],
                             radius: [10, 10, 15, 20, 30, 60, 80, 100, 120, 150, 180, 200, 250, 250]
                         }}
                         gradient={{
-                            colors : ["#79BC6A", "#BBCF4C", "#EEC20B", "#F29305", "#E50000"],
-                            startPoints : [.0002,.005,.01,.03,.04],
-                            colorMapSize : 256
+                            colors: ["#79BC6A", "#BBCF4C", "#EEC20B", "#F29305", "#E50000"],
+                            startPoints: [.0002, .005, .01, .03, .04],
+                            colorMapSize: 256
                         }}
-                        opacity = {.7}
+                        opacity={.7}
                         radius={60}
                         heatmapMode="POINTS_DENSITY"
-                    ></Heatmap>
+                    ></Heatmap>}
 				</MapView>
 			</View>
 		);
@@ -119,10 +123,22 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	map: {
+        zIndex: -1,
 		position: 'absolute',
 		top: 0,
 		left: 0,
 		bottom: 0,
 		right: 0
-	}
+    },
+    icon: {
+        alignSelf: 'flex-end', display: 'flex', justifyContent: 'center', alignItems: 'center', shadowColor: "#000000",
+        shadowOpacity: 0.4, shadowRadius: 2,
+        shadowOffset: {
+            height: 1,
+            width: 1
+        },
+        backgroundColor: 'white',
+        zIndex: 1,
+        margin: 10, width: 55, height: 55, borderRadius: 30
+    }
 });
