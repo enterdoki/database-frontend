@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text,StyleSheet, View } from 'react-native'
-import MapView, { PROVIDER_GOOGLE, Polyline, Marker } from 'react-native-maps';
+import MapView, { Heatmap, PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import axios from 'axios';
 
 export default class Brooklyn extends React.Component {
@@ -16,11 +16,11 @@ export default class Brooklyn extends React.Component {
     async componentDidMount() {
         this._isMounted = true;
         try {
-            let { data } = await axios.get('https://data-visual-api.herokuapp.com/borough/Brooklyn');
-            let coords = [];
-			data.slice(0,300).forEach((e, i) => {
+            let { data } = await axios.get('https://data-visual-api.herokuapp.com/borough/brooklyn');
+			let coords = [];
+			data.slice(0,200).forEach((e, i) => {
 				if (e.longitude && e.latitude) {
-					color = e.price <= 100 ? '#ffa500' : (e.price <= 200 && e.price > 100) ? '#ff4500' : '#ff0000';
+					color = e.price <= 100 ? 'yellow' : (e.price <= 200 && e.price > 100) ? 'orange' : '#ff0000';
 					coords.push(
 						<Marker key={i}
 							coordinate={{ latitude: e.latitude, longitude: e.longitude }}
@@ -42,22 +42,15 @@ export default class Brooklyn extends React.Component {
             console.log(err);
         }
         try{
-            let { data } = await axios.get('http://data-visual-api.herokuapp.com/service/Brooklyn');
-            let issues = [];
+            let { data } = await axios.get('http://data-visual-api.herokuapp.com/service/brooklyn');
+			let issues = [];
             data.forEach((e, i) => {
                 if (e.longitude && e.latitude) {
-                    issues.push(
-                        <Polyline key={i}
-                            coordinates={[
-                                { latitude: e.latitude, longitude: e.longitude },
-                                { latitude: e.latitude, longitude: e.longitude + .0001 },
-                                { latitude: e.latitude - .0001, longitude: e.longitude + .0001 },
-                                { latitude: e.latitude - .0001, longitude: e.longitude },
-                                { latitude: e.latitude, longitude: e.longitude }
-                            ]}
-                            strokeColor="#dc143c"
-                            strokeWidth={6}
-                        />
+                    issues.push({
+                        longitude: e.longitude,
+                        latitude: e.latitude,
+                        weight: 1
+                    }
                     )
                 }
             });
@@ -72,50 +65,65 @@ export default class Brooklyn extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        this._isMounted = false;
+	componentWillUnmount() {
+		this._isMounted = false;
     }
 
-    onMapReady = () => this.setState({ marginBottom: 0 })
+	onMapReady = () => this.setState({ marginBottom: 0 })
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <MapView
-                    provider={PROVIDER_GOOGLE}
-                    onMapReady={this.onMapReady}
-                    style={[styles.map, { flex: 1, marginBottom: this.state.marginBottom }]}
+	render() {
+		return (
+			<View style={styles.container}>
+				<MapView 
+					provider={PROVIDER_GOOGLE}
+					onMapReady={this.onMapReady}
+					style={[styles.map, { flex: 1, marginBottom: this.state.marginBottom }]}
+					ref={ref => { this.mapView = ref }}
 					initialRegion={{
 						latitude: 40.644823,
 						longitude: -73.958926,
 						latitudeDelta: 0.16,
 						longitudeDelta: 0.16
 					}}
-                    showsCompass={false}
-                    loadingEnabled={true}>
-                    {this.state.coords}
-                    {this.state.issues}
-                </MapView>
-            </View>
-        );
-    }
+					showsCompass={false}
+					loadingEnabled={true}>
+					{this.state.coords}
+                    <Heatmap
+                        points={this.state.issues}
+                        onZoomRadiusChange={{
+                            zoom: [0, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+                            radius: [10, 10, 15, 20, 30, 60, 80, 100, 120, 150, 180, 200, 250, 250]
+                        }}
+                        gradient={{
+                            colors : ["#79BC6A", "#BBCF4C", "#EEC20B", "#F29305", "#E50000"],
+                            startPoints : [.0002,.005,.01,.03,.04],
+                            colorMapSize : 256
+                        }}
+                        opacity = {.7}
+                        radius={60}
+                        heatmapMode="POINTS_DENSITY"
+                    ></Heatmap>
+				</MapView>
+			</View>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-    container: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        justifyContent: 'flex-end',
-        alignItems: 'center'
-    },
-    map: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0
-    }
+	container: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0,
+		justifyContent: 'flex-end',
+		alignItems: 'center'
+	},
+	map: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0
+	}
 });

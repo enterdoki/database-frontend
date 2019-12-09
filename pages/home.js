@@ -25,7 +25,7 @@ export default class Home extends React.Component {
     navigate = async (event) => {
         let coords = await event.coordinate;
         if (coords.latitude < 40.90 && coords.latitude > 40.83 && coords.longitude < -73.82 && coords.longitude > -73.94) {
-            Actions.Manhattan();
+            Actions.Bronx();
         }
         else if (coords.latitude < 40.83 && coords.latitude > 40.70 && coords.longitude < -73.90 && coords.longitude > -74.00) {
             Actions.Manhattan();
