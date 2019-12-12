@@ -18,7 +18,7 @@ const routes = () => (
             <Scene key="Brooklyn" component={Brooklyn} title="Brooklyn" />
             <Scene key="Bronx" component={Bronx} title="Bronx" />
             <Scene key="StatenIsland" component={StatenIsland} title="Staten Island" />
-            <Scene key="LocationalMap" component={LocationalMap} title="SOS" hideNavBar={true}/>
+            <Scene key="LocationalMap" component={LocationalMap} title="Complaints" hideNavBar={true}/>
             <Scene key="DashBoard" component={DashBoard} title="DashBoard"/>
         </Scene>
     </Router>

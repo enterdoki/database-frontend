@@ -47,7 +47,7 @@ export default class App extends React.Component {
 				{ timeout: 20000, maximumAge: 1000 }
 			);
 		} catch (err) {
-			console.log(err)
+			// console.log(err)
 		}
 	}
 
@@ -59,12 +59,12 @@ export default class App extends React.Component {
 
 	newAlert = () => {
 		this.toggleModal();
-		console.log(this.state.currLoc)
+		// console.log(this.state.currLoc)
 
 	}
 
 	onValueChange(value) {
-		console.log(value)
+		// console.log(value)
 		this.setState({
 			selected: value
 		});
@@ -92,21 +92,24 @@ export default class App extends React.Component {
 			console.log(err);
 		}
 		this.updatePoints();
-		console.log(newAlert)
+		// console.log(newAlert)
 	}
 
 	updatePoints = async () => {
 		try {
 			let { data } = await axios.get(`https://data-visual-api.herokuapp.com/report`)
 			let coords = [];
+			let timeNow = new Date().getTime();
 			data.slice(0, 300).forEach((e, i) => {
+				let testing = new Date(e["date"]);
 				if (e.longitude && e.latitude) {
 					coords.push(
 						<Marker key={i}
 							coordinate={{ latitude: e.latitude, longitude: e.longitude }}
 						>
 							<MapView.Callout >
-								<Text>Severity Level: {e.severity} {"\n"}Location: {e.latitude},{e.longitude}{e.description === "empty"? "" : "\n"+ "Description: " + e.description}</Text>
+								<Text>Severity Level: {e.severity} {"\n"}Location: {e.latitude},{e.longitude}{e.description === "empty" ? "" : "\n" + "Description: " + e.description} {"\n"} Time: {`${((testing.getTime() - timeNow)/60000 * -1).toFixed(0)} Mins Ago`} </Text>
+								
 							</MapView.Callout>
 						</Marker>
 					)
@@ -146,6 +149,9 @@ export default class App extends React.Component {
 					onRequestClose={this.toggleModal}
 					presentationStyle="formSheet"
 				>
+					<Header>
+						<Body style={{ flex: 3 }}><Text style={{ fontSize: 17.5, fontWeight: "600" }}>File a Complaint</Text></Body>
+					</Header>
 					<Container>
 						<Content>
 							<Form>
@@ -175,17 +181,18 @@ export default class App extends React.Component {
 									</Picker>
 								</Item>
 							</Form>
+							<View style={styles.textBox}>
+								<Button style={{ display: 'flex', width: 100, justifyContent: 'center' }} onPress={this.handleSubmit}>
+									<Text style={{ color: 'white', alignSelf: 'center' }}>Submit</Text>
+								</Button>
+								<Button style={{ display: 'flex', width: 100, justifyContent: 'center' }} onPress={this.toggleModal}>
+									<Text style={{ color: 'white', alignSelf: 'center' }}>Cancel</Text>
+								</Button>
+							</View>
 						</Content>
 					</Container>
-					<View style={styles.textBox}>
-						<Button style={{ width: "45%", textAlign: 'center' }} onPress={this.handleSubmit}>
-							<Text>Submit</Text>
-						</Button>
-						<Button style={{ width: "45%", textAlign: 'center' }} onPress={this.toggleModal}>
-							<Text>Cancel</Text>
-						</Button>
-					</View>
 				</Modal>
+
 				<View style={styles.container}>
 					<MapView
 						provider={PROVIDER_GOOGLE}
@@ -230,5 +237,6 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: 'space-evenly',
 		alignItems: 'center',
+		padding : 50,
 	}
 });
